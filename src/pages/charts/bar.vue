@@ -25,7 +25,7 @@
   </el-row>
 </template>
 <script type="text/javascript">
-  import {panelTitle, charts} from 'components'
+  import { panelTitle, charts } from 'components';
 
   export default{
     data(){

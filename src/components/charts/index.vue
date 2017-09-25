@@ -13,6 +13,8 @@
 </template>
 <script>
   // enumerating ECharts events for now
+
+  
   const ACTION_EVENTS = [
     'legendselectchanged',
     'legendselected',
@@ -88,7 +90,7 @@
       options: {
         handler (options) {
           if (!this.chart && options) {
-            this._init()
+            this.init()
           } else {
             this.chart.setOption(this.options, true)
           }
@@ -147,7 +149,7 @@
         }
         return this.chart[name](...args)
       },
-      _init () {
+      init () {
         if (this.chart) {
           return
         }
@@ -189,7 +191,7 @@
     mounted () {
       // auto init if `options` is already provided
       if (this.options) {
-        this._init()
+        this.init()
       }
     },
     beforeDestroy () {

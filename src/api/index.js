@@ -12,11 +12,12 @@
 import * as api_file from './file'
 import * as api_table from './table'
 import * as api_user from './user'
-
+import * as api_map from './map'
 const apiObj = {
   api_file,
   api_table,
-  api_user
+  api_user,
+  api_map
 }
 
 const install = function (Vue) {

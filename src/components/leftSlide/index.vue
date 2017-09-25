@@ -68,7 +68,6 @@
             title: "柱状图表",
             path: "/charts/bar"
           },
-          
           {
             title: "柱状模板",
             path: "/charts/barchart"
