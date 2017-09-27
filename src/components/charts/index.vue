@@ -13,8 +13,9 @@
 </template>
 <script>
   // enumerating ECharts events for now
+import axios from 'axios'
+import echarts from 'echarts';
 
-  
   const ACTION_EVENTS = [
     'legendselectchanged',
     'legendselected',
@@ -56,6 +57,7 @@
       group: String,
       autoResize: Boolean,
       modules: Array
+     
     },
     data () {
       return {
@@ -90,9 +92,12 @@
       options: {
         handler (options) {
           if (!this.chart && options) {
-            this.init()
+            
+            this.init();
+           
           } else {
             this.chart.setOption(this.options, true)
+              
           }
         },
         deep: true
@@ -104,6 +109,7 @@
       }
     },
     methods: {
+      
       // provide a explicit merge option method
       mergeOptions (options) {
         this._delegateMethod('setOption', options)
@@ -155,12 +161,22 @@
         }
         /**
          * 按需引入 ECharts 图表组件
-         * doc: http://echarts.baidu.com
+         *
          */
-        import('echarts')
-          .then(({init}) => {
-            const {$el, theme, initOptions, group, options, autoResize, _resizeHanlder} = this
-            let chart = init($el, theme, initOptions)
+        
+        //1.获得数据 
+       console.log(this.getMapData);
+        axios.get('/static/黑龙江省.json').then(function (res) {
+            echarts.registerMap('hlj',res.data);
+            console.log('res',res);
+          return echarts;
+        }).then((echarts)=> {
+          
+        let {init} = echarts; 
+         
+       const {$el, theme, initOptions, group, options, autoResize, _resizeHanlder} = this;
+          let chart = init($el, theme, initOptions);
+      
             if (group) {
               chart.group = group
             }
@@ -179,9 +195,18 @@
             if (autoResize) {
               window.addEventListener('resize', _resizeHanlder, false)
             }
-            this.chart = chart
-          })
-      },
+
+            this.chart = chart;
+      
+        })
+  
+          
+          } 
+          /*import结束*/ 
+      
+        
+      ,
+
       _resizeHanlder(){
         window.setTimeout(() => {
           this.chart.resize()
@@ -189,9 +214,11 @@
       }
     },
     mounted () {
+
       // auto init if `options` is already provided
       if (this.options) {
-        this.init()
+        this.init();
+      
       }
     },
     beforeDestroy () {
@@ -213,11 +240,15 @@
     disconnect (group) {
       this.chart.disConnect(group)
     },
-    registerMap (...args) {
-      this.chart.registerMap(...args)
+    registerMap (a,b,c) {
+
+      this.chart.registerMap(a,b,c);
+
     },
     registerTheme (...args) {
       this.chart.registerTheme(...args)
+
+
     }
   }
 </script>
