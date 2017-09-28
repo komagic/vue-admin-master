@@ -1,5 +1,5 @@
 <template>
-    <el-row>
+    <el-row :gutter="20">
         <div class="panel">
             <panel-title :title="$route.meta.title"></panel-title>
             <div class="panel-body">
@@ -7,17 +7,30 @@
 
             </div>
         </div>
-        <el-col :span="24">
+        <el-col :span="8">
             <div class="panel" style="">
-                <panel-title title="控制面板"></panel-title>
+                <panel-title title="柱体"></panel-title>
                 <div class="panel-body">
                     <div class="block">
-                        <span class="demonstration">默认</span>
-                        <el-slider v-model="value1"></el-slider>
+                        <span class="demonstration">间隔</span>
+                        <el-slider v-model="valueBarGap" show-input ></el-slider>
+                    </div>
+                    <div class="block">
+                        <span class="demonstration">宽度</span>
+                        <el-slider v-model="valueBarH" show-input></el-slider>
+                    </div>
+                    <div class="block">
+                        <span class="demonstration">x轴位置</span>
+                        <el-slider max="1000"  v-model="valueBarPos.x" show-input></el-slider>
+                    </div>
+                    <div class="block">
+                        <span class="demonstration">y轴位置</span>
+                        <el-slider max="'500'" v-model="valueBarPos.y" show-input></el-slider>
                     </div>
                 </div>
             </div>
         </el-col>
+       
     </el-row>
 </template>
 
@@ -31,6 +44,13 @@ export default {
         return {
             optionA: null,
             optionB: null,
+            valueBarGap: 50,
+            valueBarH: 30,
+            valueBarPos: {
+                x: 500,
+                y: 300
+
+            }
         }
 
     },
@@ -44,9 +64,31 @@ export default {
     mounted() {
 
         this.create_all_charts();
-
+        console.log(this.optionA.grid.x2);
 
     },
+
+    watch: {
+        //柱体间隔
+        valueBarGap: function() {
+            this.optionA.grid.width = this.valueBarGap * 10;
+        },
+        valueBarH: function() {
+            this.optionA.series[1].barWidth = this.valueBarH;
+            this.optionA.series[2].barWidth = this.valueBarH;
+        },
+        valueBarPos: {
+            handler: function() {
+                console.log('====================================');
+                console.log(this.optionA.grid.x2);
+
+                this.optionA.grid['x'] = this.valueBarPos.x;
+                this.optionA.grid['y'] = this.valueBarPos.y - 300;
+            }
+            , deep: true
+        }
+    }
+    ,
     methods: {
 
 
@@ -81,12 +123,11 @@ export default {
                 },
 
                 grid: {
-                    x2: 10,
-                    y2: 50,
-
+                    x: 500,
+                    y: 80,
                     height: '80%',
                     width: 400,
-                    right: '10%',
+
                     tooltip: {
                         show: true
                     }
@@ -195,6 +236,13 @@ export default {
                         }
 
                     }
+                },
+                animation: true,
+                animationEasing: 'linear',
+
+                animationDuration: function(idx) {
+                    // 越往后的数据延迟越大
+                    return idx * 10;
                 }
             };
         },
