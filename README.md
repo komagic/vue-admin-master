@@ -25,17 +25,20 @@
 ```
 npm install
 ```
-启动服务: (http://localhost:3000)
+项目安装
 
 ```
 npm start
 ```
-发布代码
+启动服务: (http://localhost:3000)
 
 ```
-npm run build
+发布代码
 ```
-***
+npm run build
+
+```
+
 ### 目录结构
 <pre>
 ├── build                     // 项目的 Webpack 配置文件
