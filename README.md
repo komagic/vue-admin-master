@@ -23,14 +23,15 @@
 通过`npm`安装本地服务第三方依赖模块(需要已安装[Node.js](https://nodejs.org/))
 
 ```
-npm install
-```
+
 项目安装
+```
+npm install
 
 ```
-npm start
+项目开发
 ```
-启动服务: (http://localhost:3000)
+npm start 启动服务: (http://localhost:3000)
 
 ```
 发布代码
